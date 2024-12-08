@@ -1,13 +1,20 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$db = 'ptbendicar';
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "ptbendicar";
 
-$conn = new mysqli($host, $user, $pass, $db);
+// Koneksi MySQLi
+$koneksi = mysqli_connect($host, $user, $pass, $db);
+if (!$koneksi) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
 
-// Cek koneksi
-if ($conn->connect_error) {
-    die('Koneksi gagal: ' . $conn->connect_error);
+// Koneksi menggunakan PDO
+try {
+    $pdo_conn = new PDO("mysql:host=$host;db=$db", $user, $pass);
+    $pdo_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Koneksi PDO gagal: " . $e->getMessage());
 }
 ?>
